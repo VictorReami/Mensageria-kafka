@@ -3,6 +3,7 @@ package br.com.reami.api_boleto.Mapper;
 
 import br.com.reami.api_boleto.DTO.BoletoDTO;
 import br.com.reami.api_boleto.Entity.BoletoEntity;
+import br.com.reami.avro.Boleto;
 
 
 public class BoletoMapper {
@@ -15,5 +16,14 @@ public class BoletoMapper {
                 .dataAtualizacao(boleto.getDataAtualizacao())
                 .build();
     }
+
+    public static Boleto boleToAvro(BoletoEntity boleto){
+        return Boleto.newBuilder()
+                .setCodigoBarras(boleto.getCodigoBarras())
+                .setSituacaoBoleto(boleto.getSituacaoBoleto().ordinal())
+                .build();
+    }
+
+
 
 }
