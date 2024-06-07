@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-//@Builder
+@Builder
 public class BoletoDTO {
 
     private String codigoBarras;
