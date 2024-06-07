@@ -3,6 +3,7 @@ package br.com.reami.api_boleto.Controller;
 import br.com.reami.api_boleto.DTO.BoletoDTO;
 import br.com.reami.api_boleto.DTO.BoletoRequestDTO;
 import br.com.reami.api_boleto.Service.BoletoService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +23,7 @@ public class BoletoController {
 
 
     @PostMapping
-    public ResponseEntity<BoletoDTO> salvar(@RequestBody BoletoRequestDTO boletoRequestDTO){
+    public ResponseEntity<BoletoDTO> salvar(@RequestBody @Valid BoletoRequestDTO boletoRequestDTO){
 
         var boleto = boletoService.salvar(boletoRequestDTO.getCodigoBarras());
 
