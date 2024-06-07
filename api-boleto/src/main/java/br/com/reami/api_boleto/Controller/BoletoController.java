@@ -20,16 +20,13 @@ public class BoletoController {
         this.boletoService = boletoService;
     }
 
+
     @PostMapping
     public ResponseEntity<BoletoDTO> salvar(@RequestBody BoletoRequestDTO boletoRequestDTO){
 
         var boleto = boletoService.salvar(boletoRequestDTO.getCodigoBarras());
 
         return new ResponseEntity<BoletoDTO>(boleto, HttpStatus.CREATED);
-
-
-
-
     }
 
 
