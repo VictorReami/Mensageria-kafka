@@ -2,7 +2,7 @@
     "type": "record",
     "namespace": "br.com.reami.avro",
     "name": "Boleto",
-    "fields":[
+    "fields": [
         {
             "name": "codigoBarras",
             "type": "string"

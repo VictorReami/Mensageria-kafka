@@ -7,6 +7,7 @@ import br.com.reami.api_boleto.Exception.ApplicationException;
 import br.com.reami.api_boleto.Mapper.BoletoMapper;
 import br.com.reami.api_boleto.Repository.BoletoRepository;
 import br.com.reami.api_boleto.Service.Kafka.BoletoProducer;
+import br.com.reami.avro.Boleto;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -33,16 +34,17 @@ public class BoletoService {
             throw new ApplicationException("Já existe um boleto com esse codigo de barras ou já existe uma solicitação de pagamento para este boleto.");
         }
 
-        var boletoEntity = BoletoEntity.builder().codigoBarras(codigoBarras)
+        var boletoEntity = BoletoEntity.builder()
+                .codigoBarras(codigoBarras)
                 .situacaoBoleto(SituacaoBoleto.INICIALIZADO)
                 .dataCriacao(LocalDateTime.now())
                 .dataAtualizacao(LocalDateTime.now())
                 .build();
 
         boletoRepository.save(boletoEntity);
-        boletoProducer.enviarMensagem(BoletoMapper.boleToAvro(boletoEntity));
+        boletoProducer.enviarMensagem(BoletoMapper.boletoToAvro(boletoEntity));
 
-        return BoletoMapper.boleToDTO(boletoEntity);
+        return BoletoMapper.boletoToDTO(boletoEntity);
     }
 
 }

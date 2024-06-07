@@ -8,7 +8,7 @@ import br.com.reami.avro.Boleto;
 
 public class BoletoMapper {
 
-    public static BoletoDTO boleToDTO(BoletoEntity boleto){
+    public static BoletoDTO boletoToDTO(BoletoEntity boleto){
         return BoletoDTO.builder()
                 .codigoBarras(boleto.getCodigoBarras())
                 .situacaoBoleto(boleto.getSituacaoBoleto())
@@ -17,7 +17,7 @@ public class BoletoMapper {
                 .build();
     }
 
-    public static Boleto boleToAvro(BoletoEntity boleto){
+    public static Boleto boletoToAvro(BoletoEntity boleto){
         return Boleto.newBuilder()
                 .setCodigoBarras(boleto.getCodigoBarras())
                 .setSituacaoBoleto(boleto.getSituacaoBoleto().ordinal())
