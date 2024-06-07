@@ -4,6 +4,7 @@ package br.com.reami.api_boleto.Mapper;
 import br.com.reami.api_boleto.DTO.BoletoDTO;
 import br.com.reami.api_boleto.Entity.BoletoEntity;
 
+
 public class BoletoMapper {
 
     public static BoletoDTO boleToDTO(BoletoEntity boleto){

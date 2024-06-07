@@ -6,6 +6,7 @@ import br.com.reami.api_boleto.Enums.SituacaoBoleto;
 import br.com.reami.api_boleto.Exception.ApplicationException;
 import br.com.reami.api_boleto.Mapper.BoletoMapper;
 import br.com.reami.api_boleto.Repository.BoletoRepository;
+import br.com.reami.api_boleto.Service.Kafka.BoletoProducer;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,11 +14,16 @@ import java.time.LocalDateTime;
 @Service
 public class BoletoService {
 
+
     private final BoletoRepository boletoRepository;
 
-    public BoletoService(BoletoRepository boletoRepository) {
+    private final BoletoProducer boletoProducer;
+
+    public BoletoService(BoletoRepository boletoRepository, BoletoProducer boletoProducer) {
         this.boletoRepository = boletoRepository;
+        this.boletoProducer = boletoProducer;
     }
+
 
     public BoletoDTO salvar(String codigoBarras){
         var boletoOptional = boletoRepository.findByCodigoBarras(codigoBarras);
@@ -33,10 +39,12 @@ public class BoletoService {
                 .dataAtualizacao(LocalDateTime.now())
                 .build();
 
+        var boletoDTo = BoletoMapper.boleToDTO(boletoEntity);
+
         boletoRepository.save(boletoEntity);
+        boletoProducer.enviarMensagem(boletoDTo);
 
-        return BoletoMapper.boleToDTO(boletoEntity);
+        return boletoDTo;
     }
-
 
 }

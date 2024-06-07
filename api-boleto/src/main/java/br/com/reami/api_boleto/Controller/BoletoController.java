@@ -23,11 +23,11 @@ public class BoletoController {
 
 
     @PostMapping
-    public ResponseEntity<BoletoDTO> salvar(@RequestBody @Valid BoletoRequestDTO boletoRequestDTO){
+    public ResponseEntity<BoletoDTO> salvar(@Valid @RequestBody BoletoRequestDTO boletoRequestDTO){
 
         var boleto = boletoService.salvar(boletoRequestDTO.getCodigoBarras());
 
-        return new ResponseEntity<BoletoDTO>(boleto, HttpStatus.CREATED);
+        return new ResponseEntity<>(boleto, HttpStatus.CREATED);
     }
 
 
