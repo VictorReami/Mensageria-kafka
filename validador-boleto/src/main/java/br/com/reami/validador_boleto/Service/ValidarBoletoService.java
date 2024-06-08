@@ -2,7 +2,9 @@ package br.com.reami.validador_boleto.Service;
 
 import br.com.reami.validador_boleto.Entity.BoletoEntity;
 import br.com.reami.validador_boleto.Enums.SituacaoBoleto;
+import br.com.reami.validador_boleto.Mapper.BoletoMapper;
 import br.com.reami.validador_boleto.Repository.BoletoRepository;
+import br.com.reami.validador_boleto.Service.Kafka.NotificacaoProducer;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,9 +13,11 @@ import java.time.LocalDateTime;
 public class ValidarBoletoService {
 
     private final BoletoRepository boletoRepository;
+    private final NotificacaoProducer notificacaoProducer;
 
-    public ValidarBoletoService(BoletoRepository boletoRepository) {
+    public ValidarBoletoService(BoletoRepository boletoRepository, NotificacaoProducer notificacaoProducer) {
         this.boletoRepository = boletoRepository;
+        this.notificacaoProducer = notificacaoProducer;
     }
 
     public void validar(BoletoEntity boleto){
@@ -27,6 +31,7 @@ public class ValidarBoletoService {
             boletoRepository.save(boleto);
 
             //Notificar
+            notificacaoProducer.enviarMensagem(BoletoMapper.boletoToAvro(boleto));
 
         }else{
             //Todo boleto valido
@@ -36,7 +41,7 @@ public class ValidarBoletoService {
             boletoRepository.save(boleto);
 
             //Notifica que o boleto foi validado com sucesso
-
+            notificacaoProducer.enviarMensagem(BoletoMapper.boletoToAvro(boleto));
 
             //Seguir com o pagamento
         }

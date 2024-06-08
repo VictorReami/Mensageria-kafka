@@ -15,4 +15,11 @@ public class BoletoMapper {
                 .build();
     }
 
+    public static Boleto boletoToAvro(BoletoEntity boleto){
+        return Boleto.newBuilder()
+                .setCodigoBarras(boleto.getCodigoBarras())
+                .setSituacaoBoleto(boleto.getSituacaoBoleto().ordinal())
+                .build();
+    }
+
 }
