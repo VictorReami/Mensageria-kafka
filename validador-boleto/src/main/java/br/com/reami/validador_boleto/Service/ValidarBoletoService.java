@@ -15,12 +15,15 @@ public class ValidarBoletoService {
     private final BoletoRepository boletoRepository;
     private final NotificacaoProducer notificacaoProducer;
 
-    public ValidarBoletoService(BoletoRepository boletoRepository, NotificacaoProducer notificacaoProducer) {
+    private final PagarBoletoService pagarBoletoService;
+
+    public ValidarBoletoService(BoletoRepository boletoRepository, NotificacaoProducer notificacaoProducer, PagarBoletoService pagarBoletoService) {
         this.boletoRepository = boletoRepository;
         this.notificacaoProducer = notificacaoProducer;
+        this.pagarBoletoService = pagarBoletoService;
     }
 
-    public void validar(BoletoEntity boleto){
+    public void validar(BoletoEntity boleto) throws InterruptedException {
         var codigo = Integer.parseInt(boleto.getCodigoBarras().substring(0,1));
 
         if(codigo % 2 == 0){
@@ -44,6 +47,7 @@ public class ValidarBoletoService {
             notificacaoProducer.enviarMensagem(BoletoMapper.boletoToAvro(boleto));
 
             //Seguir com o pagamento
+            pagarBoletoService.pagar(boleto);
         }
 
     }
