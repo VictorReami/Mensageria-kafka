@@ -12,7 +12,8 @@ public class BoletoConsumer {
     private static final Logger LOGGER = LoggerFactory.getLogger(BoletoConsumer.class);
 
     @KafkaListener(topics = "${spring.kafka.topico-boleto}", groupId = "${spring.kafka.consumer.group-id}")
-    public void consomeBoleto(Boleto boleto){
+    public void consomeBoleto(Boleto boleto) throws InterruptedException {
         LOGGER.info(String.format("Consumindo mensagem -> %s", boleto));
+        Thread.sleep(3000);
     }
 }
