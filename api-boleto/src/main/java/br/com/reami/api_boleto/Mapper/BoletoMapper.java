@@ -3,6 +3,7 @@ package br.com.reami.api_boleto.Mapper;
 
 import br.com.reami.api_boleto.DTO.BoletoDTO;
 import br.com.reami.api_boleto.Entity.BoletoEntity;
+import br.com.reami.api_boleto.Enums.SituacaoBoleto;
 import br.com.reami.avro.Boleto;
 
 
@@ -21,6 +22,13 @@ public class BoletoMapper {
         return Boleto.newBuilder()
                 .setCodigoBarras(boleto.getCodigoBarras())
                 .setSituacaoBoleto(boleto.getSituacaoBoleto().ordinal())
+                .build();
+    }
+
+    public static BoletoEntity boletoToEntity(Boleto boleto){
+        return BoletoEntity.builder()
+                .codigoBarras(boleto.getCodigoBarras().toString())
+                .situacaoBoleto(SituacaoBoleto.values()[boleto.getSituacaoBoleto()])
                 .build();
     }
 

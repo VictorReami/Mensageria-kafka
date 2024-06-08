@@ -47,4 +47,8 @@ public class BoletoService {
         return BoletoMapper.boletoToDTO(boletoEntity);
     }
 
+    public void atualizar(BoletoEntity boleto){
+
+    }
+
 }
