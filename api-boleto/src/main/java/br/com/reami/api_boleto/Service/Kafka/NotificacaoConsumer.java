@@ -21,7 +21,7 @@ public class NotificacaoConsumer {
         this.boletoService = boletoService;
     }
 
-    @KafkaListener(topics = "spring.kafka.topico-notificacao")
+    @KafkaListener(topics = "${spring.kafka.topico-notificacao}")
     public void consumer(@Payload Boleto boleto){
         LOGGER.info(String.format("Consumindo mensagem -> %s", boleto));
 

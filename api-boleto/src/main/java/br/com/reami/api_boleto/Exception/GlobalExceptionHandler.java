@@ -26,6 +26,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<Object>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Object> notFoundException(ApplicationException e, WebRequest request){
+        var response = ErroResponse.builder()
+                .erro(e.getMessage())
+                .codigo(HttpStatus.NOT_FOUND.value())
+                .timeStamp(new Date())
+                .path(request.getDescription(false))
+                .build();
+
+        return new ResponseEntity<Object>(response, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> methodArgumentNotValidException(MethodArgumentNotValidException e, WebRequest request){
 

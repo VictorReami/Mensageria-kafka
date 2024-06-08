@@ -4,6 +4,7 @@ import br.com.reami.api_boleto.DTO.BoletoDTO;
 import br.com.reami.api_boleto.Entity.BoletoEntity;
 import br.com.reami.api_boleto.Enums.SituacaoBoleto;
 import br.com.reami.api_boleto.Exception.ApplicationException;
+import br.com.reami.api_boleto.Exception.NotFoundException;
 import br.com.reami.api_boleto.Mapper.BoletoMapper;
 import br.com.reami.api_boleto.Repository.BoletoRepository;
 import br.com.reami.api_boleto.Service.Kafka.BoletoProducer;
@@ -47,8 +48,22 @@ public class BoletoService {
         return BoletoMapper.boletoToDTO(boletoEntity);
     }
 
-    public void atualizar(BoletoEntity boleto){
+    public BoletoDTO buscarBoletoPorCodigoBarras(String codigoBarras){
+        return BoletoMapper.boletoToDTO(recuperaBoleto(codigoBarras));
+    }
 
+    private BoletoEntity recuperaBoleto(String codigoBarras){
+        return boletoRepository.findByCodigoBarras(codigoBarras)
+                .orElseThrow(() -> new NotFoundException("Boleto não encontrado"));
+    }
+
+    public void atualizar(BoletoEntity boleto){
+        var boletoAtual = recuperaBoleto(boleto.getCodigoBarras());
+
+        boletoAtual.setSituacaoBoleto(boleto.getSituacaoBoleto());
+        boletoAtual.setDataAtualizacao(LocalDateTime.now());
+
+        boletoRepository.save(boletoAtual);
     }
 
 }
