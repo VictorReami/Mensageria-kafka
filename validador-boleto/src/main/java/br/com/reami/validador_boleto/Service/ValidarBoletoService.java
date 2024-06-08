@@ -30,8 +30,14 @@ public class ValidarBoletoService {
 
         }else{
             //Todo boleto valido
+            complementarBoletoSucesso(boleto);
+
             //Salvar em base
+            boletoRepository.save(boleto);
+
             //Notifica que o boleto foi validado com sucesso
+
+
             //Seguir com o pagamento
         }
 
@@ -41,6 +47,12 @@ public class ValidarBoletoService {
         boleto.setDataCriacao(LocalDateTime.now());
         boleto.setDataAtualizacao(LocalDateTime.now());
         boleto.setSituacaoBoleto(SituacaoBoleto.ERRO_VALIDACAO);
+    }
+
+    private void complementarBoletoSucesso(BoletoEntity boleto){
+        boleto.setDataCriacao(LocalDateTime.now());
+        boleto.setDataAtualizacao(LocalDateTime.now());
+        boleto.setSituacaoBoleto(SituacaoBoleto.VALIDADO);
     }
 
 
