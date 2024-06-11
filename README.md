@@ -15,4 +15,5 @@ Projeto desenvolvido por: Victor M. Reami
 ### Arquitetura do projeto
 O projeto consiste em aplicações responsáveis por recepcionar, validar e pagar um boleto, 
 onde a comunicação entre sistema acontece por mensageria.
-![Alt Text](./images/arquitetura.gif)
+
+![arquitetura](https://github.com/VictorReami/Mensageria-kafka/assets/77130926/701d6c0a-8a71-47f1-ac07-0e90d372b1aa)
